@@ -33,4 +33,7 @@ Supposing you have bought the game and have it's ROM, change the name of the fil
 rom.md
 ```
 
-### Run Streetfighter_agent.py
+### Running
+Run the Streetfighter_agent.py at the scripts folder
+
+

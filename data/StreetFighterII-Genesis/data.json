@@ -1,0 +1,36 @@
+{
+  "info": {
+    "health":{
+      "address": 16744680,
+      "type": ">u2"
+    },
+    "posx":{
+      "address":16744454,
+      "type": ">u2"
+    },
+    "enemyHealth":{
+      "address": 16745152,
+      "type": ">u2"
+    },
+    "posxEnemy":{
+      "address":16745094,
+      "type": ">u2"
+    },
+    "score":{
+      "address":16744938,
+      "type": ">u2"
+    },
+    "isAttacking":{
+      "address":16744638,
+      "type": ">u2"
+    },
+    "attackIndex":{
+      "address":16744634,
+      "type":">u2"
+    },
+    "jumpHeight":{
+      "address":16744654,
+      "type":">u2"
+    }
+   }
+}

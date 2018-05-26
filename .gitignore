@@ -131,3 +131,8 @@ retro/VERSION.txt
 # Test stuff
 Temporary
 *.mkv
+
+#----------------- Until here only Gym Retro stuff
+#------------------------- Changes made by Zora AI
+
+data/StreetFighterII-Genesis/rom.md

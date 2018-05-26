@@ -1,0 +1,27 @@
+{
+  "done": {
+    "condition":"all",
+    "variables": {
+      "health": {
+        "op":"equal",
+        "reference": 0
+      },
+      "enemyHealth":{
+        "op":"equal",
+        "reference": 0
+      },
+      "posx":{
+        "op":"equal",
+        "reference": 0
+      }
+    }
+},
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1
+      }
+    }
+}
+
+}

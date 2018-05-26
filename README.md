@@ -1,4 +1,4 @@
-# Street Fighter II Hyper Fighting bot with Gym-Retro
+# Street Fighter II bot with Gym-Retro
 
 ## Bases on OpenAi's Gym Retro
 

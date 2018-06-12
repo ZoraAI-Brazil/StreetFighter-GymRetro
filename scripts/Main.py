@@ -32,6 +32,8 @@ def createInitialPopulation():
         game_memory = []
         prev_obs = []
         for _ in range(STEPS):
+            if RENDER:
+                environment.render()
             action = random.randrange(0, OUTPUTS)
             obs, rew, done, info = environment.step(action)
 
@@ -55,6 +57,26 @@ def createInitialPopulation():
 def breedModels():
     models = []
     best_models = loadBestModels()
+    for model in best_models:
+        models.append(model)
+    while len(models) != POPULATION_SIZE:
+        parent1 = random.randint(0, len(best_models)-1)
+        parent1 = best_models[parent1]
+        parent1_weights = parent1.brain.get_weights()
+        parent2 = random.randint(0, len(best_models)-1)
+        parent2 = best_models[parent2]
+        parent2_weights = parent2.brain.get_weights()
+        new_model = Model(makeBrain())
+        new_model_weights = new_model.brain.get_weights()
+        for i in range(len(new_model_weights)):
+            if i < len(new_model_weights/2):
+                new_model_weights[i] = parent1_weights[i]
+            else:
+                new_model_weights[i] = parent2_weights[i]
+
+        new_model.brain.set_weights(new_model_weights)
+        models.append(new_model)
+        
     return models
 
 # Gera uma mutação em alguns modelos dependendo da probabilidade
@@ -63,13 +85,13 @@ def mutateModels(models):
     for model in models:
         chance = random.randint(1, 100)
         if chance <= 5:
-            weights = model.getweights()
+            weights = model.brain.get_weights()
             for i in weights:
                 chance2 = random.randint(0,1)
                 if chance2 == 0:
                     weights[i] = random.randrange(0,1)
 
-            model.setweights(weights)
+            model.brain.set_weights(weights)
 
         mutated_models.append(model)
 
@@ -85,7 +107,8 @@ def runModels(mutated_models):
         game_memory = []
         prev_obs = []
         for _ in range(STEPS):
-
+            if RENDER:
+                environment.render()
             if len(prev_obs) == 0:
                 action = random.randrange(0, OUTPUTS)
             else:

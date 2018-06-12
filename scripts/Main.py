@@ -45,12 +45,13 @@ def createInitialPopulation():
             prev_obs = obs
             model.score += rew
             if done:
+                #print(model.score)
                 break
 
         model.memory = game_memory
         models_list.append(model)
         scores.append(model.score)
-    
+    print(np.average(scores))
     best_models = getBestModels(models_list, scores)
     saveBestModels(best_models)
 
@@ -70,13 +71,15 @@ def breedModels():
         new_model = Model(makeBrain())
         new_model_weights = new_model.brain.get_weights()
         for i in range(len(new_model_weights)):
-            if i < len(new_model_weights/2):
+            if i < len(new_model_weights)/2:
                 new_model_weights[i] = parent1_weights[i]
             else:
                 new_model_weights[i] = parent2_weights[i]
 
         new_model.brain.set_weights(new_model_weights)
         models.append(new_model)
+
+        #print(models)
         
     return models
 
@@ -87,10 +90,11 @@ def mutateModels(models):
         chance = random.randint(1, 100)
         if chance <= 5:
             weights = model.brain.get_weights()
-            for i in weights:
+            #print(weights)
+            for i in range(len(weights)):
                 chance2 = random.randint(0,1)
                 if chance2 == 0:
-                    weights[i] = random.randrange(0,1)
+                    weights[i] = weights[i]-0.1
 
             model.brain.set_weights(weights)
 
@@ -114,7 +118,8 @@ def runModels(mutated_models):
             if len(prev_obs) == 0:
                 action = random.randrange(0, OUTPUTS)
             else:
-                action = model.think(prev_obs)
+                #print(prev_obs)
+                action = np.argmax(model.think(np.reshape(prev_obs,(1,INPUTS))))
 
             obs, rew, done, info = environment.step(action)
             prev_obs = obs
@@ -122,12 +127,13 @@ def runModels(mutated_models):
             model.score += rew
 
             if done:
+                #print(model.score)
                 break
 
         model.memory = game_memory
         models_list.append(model)
         scores.append(model.score)
-
+    print(np.average(scores))
     best_models = getBestModels(models_list, scores)
     saveBestModels(best_models)
 
@@ -144,21 +150,21 @@ def getBestModels(models, scores):
         
     for i in best_index:
         best_models.append(models[i])
-        print(models[i].score)
+        #print(models[i].score)
     
     return best_models
 
 # Salva os melhores modelos
 def saveBestModels(best_models):
     for i in range(len(best_models)):
-        best_models[i].brain.save(SAVE_NAME+"{}".format(i))
+        best_models[i].brain.save_weights(SAVE_NAME+"{}".format(i))
 
 # Carrega os melhores modelos
 def loadBestModels():
     models = []
     for i in range(N_BEST):
-        brain = load_model(SAVE_NAME+"{}".format(i))
-        model = Model(brain)
+        model = Model(makeBrain())
+        model.brain.load_weights(SAVE_NAME+"{}".format(i))
         models.append(model)
     return models
 
@@ -176,8 +182,8 @@ def trainingLoop():
 environment = gym.make(GAME)
 environment.reset()
 createInitialPopulation()
+especie = 0
 while True:
-    especie = 0
-    print("Especie"+especie)
+    print("Especie"+str(especie))
     trainingLoop()
     especie += 1

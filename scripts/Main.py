@@ -31,9 +31,11 @@ def createInitialPopulation():
         environment.reset()
         game_memory = []
         prev_obs = []
+        model.score = 0
         for _ in range(STEPS):
             if RENDER:
                 environment.render()
+
             action = random.randrange(0, OUTPUTS)
             obs, rew, done, info = environment.step(action)
 
@@ -48,7 +50,6 @@ def createInitialPopulation():
         model.memory = game_memory
         models_list.append(model)
         scores.append(model.score)
-        model.score = 0
     
     best_models = getBestModels(models_list, scores)
     saveBestModels(best_models)
@@ -106,6 +107,7 @@ def runModels(mutated_models):
         environment.reset()
         game_memory = []
         prev_obs = []
+        model.score = 0
         for _ in range(STEPS):
             if RENDER:
                 environment.render()
@@ -125,7 +127,6 @@ def runModels(mutated_models):
         model.memory = game_memory
         models_list.append(model)
         scores.append(model.score)
-        model.score = 0
 
     best_models = getBestModels(models_list, scores)
     saveBestModels(best_models)
@@ -133,22 +134,31 @@ def runModels(mutated_models):
 # Define os  N melhores modelos a partir de uma lista de scores
 def getBestModels(models, scores):
     best_models = []
-    best_index = nlargest(N_BEST, scores)
+    best_scores = nlargest(N_BEST, scores)
+    best_index = []
+
+    for i in range(len(scores)):
+        if scores[i] in best_scores:
+            if len(best_index) != N_BEST:
+                best_index.append(i)
+        
     for i in best_index:
         best_models.append(models[i])
+        print(models[i].score)
     
     return best_models
 
 # Salva os melhores modelos
 def saveBestModels(best_models):
     for i in range(len(best_models)):
-        best_models[i].save(SAVE_NAME+"{}".format(i))
+        best_models[i].brain.save(SAVE_NAME+"{}".format(i))
 
 # Carrega os melhores modelos
 def loadBestModels():
     models = []
     for i in range(N_BEST):
-        model = load_model(SAVE_NAME+"{}".format(i))
+        brain = load_model(SAVE_NAME+"{}".format(i))
+        model = Model(brain)
         models.append(model)
     return models
 
@@ -167,4 +177,7 @@ environment = gym.make(GAME)
 environment.reset()
 createInitialPopulation()
 while True:
+    especie = 0
+    print("Especie"+especie)
     trainingLoop()
+    especie += 1

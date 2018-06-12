@@ -21,9 +21,6 @@ def makeBrain():
 
     return brain
 
-environment = gym.make(GAME)
-environment.reset()
-
 # Cria a população inicial
 def createInitialPopulation():
     models_list = []
@@ -69,6 +66,7 @@ def runModels(mutated_models):
     models_list = []
 
     for model in mutated_models:
+        environment.reset()
         game_memory = []
         prev_obs = []
         for _ in range(STEPS):
@@ -94,14 +92,21 @@ def runModels(mutated_models):
     best_models = getBestModels(models_list, scores)
     saveBestModels(best_models)
 
+# Define os  N melhores modelos a partir de uma lista de scores
 def getBestModels(models, scores):
-    # return best_models
-    pass
+    best_models = []
+    best_index = nlargest(N_BEST, scores)
+    for i in best_index:
+        best_models.append(models[i])
+    
+    return best_models
 
+# Salva os melhores modelos
 def saveBestModels(best_models):
     for i in range(len(best_models)):
         best_models[i].save(SAVE_NAME+"{}".format(i))
 
+# Carrega os melhores modelos
 def loadBestModels():
     models = []
     for i in range(N_BEST):
@@ -120,5 +125,8 @@ def giveReward(models):
 #     runModels(mutated_models)
 #     pass
 
+
+environment = gym.make(GAME)
+environment.reset()
 # createInitialPopulation()
 # trainingLoop()

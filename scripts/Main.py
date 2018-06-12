@@ -157,14 +157,14 @@ def giveReward(models):
     pass
 
 # Loop de treino
-# def trainingLoop():
-#     models = breedModels()
-#     mutated_models = mutateModels(models)
-#     runModels(mutated_models)
-#     pass
+def trainingLoop():
+     models = breedModels()
+     mutated_models = mutateModels(models)
+     runModels(mutated_models)
 
 
 environment = gym.make(GAME)
 environment.reset()
-# createInitialPopulation()
-# trainingLoop()
+createInitialPopulation()
+while True:
+    trainingLoop()

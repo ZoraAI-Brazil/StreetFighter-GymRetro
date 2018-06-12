@@ -53,12 +53,27 @@ def createInitialPopulation():
 
 # Cria uma nova população a partir dos melhores modelos da geração anterior
 def breedModels():
-    models = loadBestModels()
+    models = []
+    best_models = loadBestModels()
     return models
 
 # Gera uma mutação em alguns modelos dependendo da probabilidade
 def mutateModels(models):
-    pass
+    mutated_models = []
+    for model in models:
+        chance = random.randint(1, 100)
+        if chance <= 5:
+            weights = model.getweights()
+            for i in weights:
+                chance2 = random.randint(0,1)
+                if chance2 == 0:
+                    weights[i] = random.randrange(0,1)
+
+            model.setweights(weights)
+
+        mutated_models.append(model)
+
+    return mutated_models
 
 # Roda a população no jogo
 def runModels(mutated_models):

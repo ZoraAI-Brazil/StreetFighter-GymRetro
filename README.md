@@ -26,7 +26,7 @@ https://github.com/openai/retro
 
 ### Get a Street Fighter ROM
 
-** DISCLAIMER: We don't take responsability for the origin of the ROM. You should buy Street Fighter II Hyper Fighting if you pretend to use the ROM. Any use of irregular/illegal ROMs is not on concern of the open-source organization ZoraAI and we take no responsability for it.
+** DISCLAIMER: We don't take responsability for the origin of the ROM. You should buy Street Fighter II Hyper Fighting if you intend to use it in your project.
 
 Supposing you have bought the game and have it's ROM, change the name of the file to 
 ```sh

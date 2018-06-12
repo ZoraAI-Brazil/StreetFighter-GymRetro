@@ -1,7 +1,7 @@
 # Street Fighter II bot with Gym-Retro
 
 
-<img src=https://c1.staticflickr.com/7/6217/6850305908_d0d75c0b2a_b.jpg>
+![alt text](https://c1.staticflickr.com/7/6217/6850305908_d0d75c0b2a_b.jpg)
 
 
 
